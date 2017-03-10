@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>bdbcd359-4d69-4100-896c-a3c8b6c4eb33</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>zadatak1.py</StartupFile>
+    <StartupFile>functions.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -13,7 +13,7 @@
     <Name>PythonApplication1</Name>
     <RootNamespace>PythonApplication1</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>key</CommandLineArguments>
+    <CommandLineArguments>keyz zkey</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -26,6 +26,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="add1.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="functions.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PythonApplication1.py" />
