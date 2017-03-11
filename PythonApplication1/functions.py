@@ -63,6 +63,17 @@ def list_of_tuples():
     print("New list: " , list)
 
 #Seventh
-
-
-list_of_tuples()
+def set_of_tuples():
+    mySet = set()
+    firstTuples = ()
+    for i in range(2):
+        inputString = input("Unesite int, float i string: ")
+        inputInt , inputFloat, inputSubString = inputString.split()
+        if(i == 0):
+            firstTuples = (int(inputInt) , float(inputFloat) , inputSubString)
+        mySet.update((int(inputInt) , float(inputFloat) , inputSubString))
+    print(mySet)
+    mySet.remove(firstTuples[0])
+    mySet.remove(firstTuples[1])
+    mySet.remove(firstTuples[2])
+    print("New set: " , mySet)
