@@ -1,11 +1,11 @@
 import sys
 
 #First
-def sum_of_first_N(n): 
-    retVal = 0 
+def sum_of_first_N(n):
+    retVal = 0
     for i in range(n):
         retVal += i
-    return retVal 
+    return retVal
 
 #Second
 def sum_of_first_N_squared(n):
@@ -17,14 +17,14 @@ def sum_of_first_N_squared(n):
 #Third
 def input_print():
     if len(sys.argv) < 3:
-        sys.exit() 
+        sys.exit()
     else:
         print("Uneto dovoljno parametara")
-    
+
     retVal = 0
     retVal = sys.argv[1][0] + sys.argv[1][1] + sys.argv[1][2]
     retVal += sys.argv[2][-1] + sys.argv[2][-2] + sys.argv[2][-3]
-    
+
     return retVal
 
 #Fourth
@@ -39,19 +39,25 @@ def first_hundred():
 #TODO: finish this
 def number_of_repetition():
     input_file = open("dict_test.txt" , "r")
+    listOfWords = []
     dictionary = {}
-    for word in input_file.read():
-        print(word)
-        for key , value in dictionary.items():
-            if (key == word):
-                value += 1
-                break
-            else:   
-                dictionary[word] = 1
+    with input_file as it:
+        for line in it:
+                for word in line.split():
+                        if(not dictionary):
+                            dictionary[word] = 1
+                        else:
+                            if word in dictionary:
+                                dictionary[word] += 1
+                            else:
+                                dictionary[word] = 1
+    print(dictionary)
+
+
 
 #Sixst
 
-#Seventh   
-    
+#Seventh
+
 
 number_of_repetition()
