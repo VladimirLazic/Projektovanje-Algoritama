@@ -36,7 +36,6 @@ def first_hundred():
     print(x)
 
 #Fifth
-#TODO: finish this
 def number_of_repetition():
     input_file = open("dict_test.txt" , "r")
     listOfWords = []
@@ -52,12 +51,18 @@ def number_of_repetition():
                             else:
                                 dictionary[word] = 1
     print(dictionary)
-
-
-
 #Sixst
+def list_of_tuples():
+    list = []
+    for i in range(4):
+        inputString = input("Unesite int, float i string: ")
+        inputInt , inputFloat, inputSubString = inputString.split()
+        list.append((int(inputInt) , float(inputFloat) , inputSubString))
+    print(list)
+    list.pop(0)
+    print("New list: " , list)
 
 #Seventh
 
 
-number_of_repetition()
+list_of_tuples()
