@@ -1,6 +1,7 @@
 import random
 import time
 import sys
+import math
 
 def random_list (min, max, elements):
     list = random.sample(range(min, max), elements)
@@ -36,16 +37,18 @@ def insertion_sort(array):
 def merge(array , p , q , r):
     n1 = q - p + 1
     n2 = r - q
-    L = []
-    R = []
-    for i in range(1 , n1 + 1):
-        L[i].append(array[p + i - 1])
-    for j in range(1 , n2 + 1):
-        R[j].append(array[q + j])
-    L[n1 + 1].append(maxsize)
-    R[n2 + 1].append(maxsize)
-    i = 1
-    j = 1
+    L = list()
+    R = list()
+    for i in range(0 , n1):
+        L.append(array[p + i])
+
+    for j in range(0 , n2):
+        R.append(array[q + j ])
+
+    L.append(sys.maxsize)
+    R.append(sys.maxsize)
+    i = 0
+    j = 0
     for k in range(p , r + 1):
         if L[i] <= R[j]:
             array[k] = L[i]
@@ -57,15 +60,40 @@ def merge(array , p , q , r):
 
 def merge_sort(my_array , start , end):
     if start < end:
-        q = (start + end)//2
+        #q = (start + end)//2
+        q = math.floor((start + end)/2)
         merge_sort(my_array, start , q)
         merge_sort(my_array, q + 1 , end)
         merge(my_array, start , q , end)
     else:
-        return my_array[1:len(my_array)]
+        return my_array
 
-my_array = ["dummy"]
-for i in range(len(l)):
-    my_array.append(l[i])
+def linear_search(data_list , target):
+    target_index = -1
+    for i in range(0 , len(data_list)):
+        if(target == data_list[i]):
+            target_index = i
+            break
+    if(i != -1):
+        print("Target found ")
+        print("List[" , target_index , "] = " , data_list[target_index])
+    else:
+        print("Target not in the list!")
 
-sanity_check(my_array , merge_sort(my_array , 1 , len(l) - 1))
+def binary_search(sorted_list , target , start):
+    q = (start + len(sorted_list) - 1)//2
+    target_index =  - 1
+    if(target == sorted_list[q]):
+        print("Target found")
+        target_index = q + start
+        print("List[" , target_index , "] = " , sorted_list[q])
+    elif (target < sorted_list[q]):
+        binary_search(sorted_list[0:q - 1] , target , 0)
+    else:
+        binary_search(sorted_list[q + 1:] , target , q + 1)
+l.sort()
+
+
+
+binary_search(l , 99 , 0)
+linear_search(l , 99)
