@@ -91,9 +91,8 @@ def binary_search(sorted_list , target , start):
         binary_search(sorted_list[0:q - 1] , target , 0)
     else:
         binary_search(sorted_list[q + 1:] , target , q + 1)
+
+
 l.sort()
-
-
-
 binary_search(l , 99 , 0)
 linear_search(l , 99)
