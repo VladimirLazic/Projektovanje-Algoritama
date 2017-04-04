@@ -43,9 +43,45 @@ def radix_sort(A):
                 A.append(x)
 
 #Heap sort
+def parent(i):
+    return int((i-1)/2)
+
+def left(i):
+    return 2*i+1
+
+def right(i):
+    return 2*i + 2
+
+def max_heapify(array , i):
+    l = left(i)
+    r = right(i)
+    largest = 0
+    if l < heap_size and array[l] > array[i]:
+        largest = l
+    else:
+        largest = i
+    if r < heap_size and array[r] > array[largest]:
+        largest = r
+    if largest != i:
+        array[i] , array[largest] = array[largest] , array[i]
+        max_heapify(array , largest)
+
+def build_max_heap(array):
+    global heap_size
+    heap_size = len(array)
+    for i in range(heap_size//2-1, -1 , -1):
+        max_heapify(array , i)
+
+def heapsort(array):
+    global heap_size
+    build_max_heap(array)
+    for i in range(heap_size-1 ,-1 ,-1):
+        array[0] , array[i] = array[i]  , array[0]
+        heap_size -= 1
+        max_heapify(array , 0)
 
 #Test
-
+print("--------------------------------------------------")
 #Selection sort test
 l = random_list(1, 100, 50)
 sorting_list = l[:]
@@ -61,8 +97,10 @@ if l == sorting_list:
 
 l.clear()
 sorting_list.clear()
+print("--------------------------------------------------")
 
-#Radix sort
+#Radix sort test
+print("--------------------------------------------------")
 l = random_list(1, 100, 50)
 sorting_list = l[:]
 
@@ -77,3 +115,23 @@ if l == sorting_list:
 
 l.clear()
 sorting_list.clear()
+print("--------------------------------------------------")
+
+#Heap sort test
+print("--------------------------------------------------")
+l = random_list(1 , 100 , 50)
+sorting_list = l[:]
+
+start_time = time.clock()
+heapsort(sorting_list)
+end_time = time.clock()
+
+l.sort()
+
+if l == sorting_list:
+    print("Heap Sort is correct")
+    print("Heap Sort tim: " + str((end_time - start_time)))
+
+l.clear()
+sorting_list.clear()
+print("--------------------------------------------------")
