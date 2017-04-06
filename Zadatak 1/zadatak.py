@@ -2,10 +2,48 @@ import sys
 import random
 import math
 import time
+import numpy as np
+import matplotlib.pyplot as plt
 
-def random_list (min, max, elements):
+stdLenths = [1, 10, 100, 1000, 10000]
+
+def CreatePlot(input_data, exec_time, algo_name, subplotIndex):
+    plt.plot(input_data, exec_time, label=algo_name)
+    plt.xlabel('Input [n]')
+    plt.ylabel('Time [S]')
+    plt.legend()
+    print(algo_name)
+    for i in range(0, len(input_data)):
+        print("input_data: ", input_data[i], ", exec_time: ", exec_time[i])
+
+def random_list(min, max, elements):
     list = random.sample(range(min, max), elements)
     return list
+
+def isSorted(A):
+    testList = A[:]
+    testList.sort()
+    if testList == A:
+        return True
+    return False
+
+
+def analyzeAlgorithm(type, subplotIndex):
+    #global stdLenths = [1, 10, 100, 1000, 10000]
+    sortTimes = list()
+    j = 0
+    for i in stdLenths:
+        x = random_list(0, 1000000 + 1, i)
+        startTime = time.clock()
+        if type.__name__ != "radix_sort":
+            type(x)
+        else:
+            x = type(x)
+        endTime = time.clock()
+        sortTimes.append(endTime - startTime)
+        j += 1
+    if(isSorted(x)):
+        CreatePlot(stdLenths, sortTimes, type.__name__, subplotIndex)
 
 #Selection sort
 def selection_sort(A):
@@ -72,7 +110,7 @@ def build_max_heap(array):
     for i in range(heap_size//2-1, -1 , -1):
         max_heapify(array , i)
 
-def heapsort(array):
+def heap_sort(array):
     global heap_size
     build_max_heap(array)
     for i in range(heap_size-1 ,-1 ,-1):
@@ -81,19 +119,24 @@ def heapsort(array):
         max_heapify(array , 0)
 
 #Test
+times = {}
+
 print("--------------------------------------------------")
 #Selection sort test
-l = random_list(1, 100, 50)
+l = random_list(1, 10000 , 1000)
 sorting_list = l[:]
 
 start_time = time.clock()
 selection_sort(sorting_list)
 end_time = time.clock()
+times.update({"Selection sort" : end_time - start_time})
 l.sort()
 
 if l == sorting_list:
     print("Selection Sort is correct")
     print("Selection Sort tim: " + str((end_time - start_time)))
+
+analyzeAlgorithm(selection_sort, 1)
 
 l.clear()
 sorting_list.clear()
@@ -101,17 +144,20 @@ print("--------------------------------------------------")
 
 #Radix sort test
 print("--------------------------------------------------")
-l = random_list(1, 100, 50)
+l = random_list(1, 10000 , 1000)
 sorting_list = l[:]
 
 start_time = time.clock()
 sorting_list = radix_sort(sorting_list)
 end_time = time.clock()
+times.update({"Radix sort" : end_time - start_time})
 l.sort()
 
 if l == sorting_list:
     print("Radix Sort is correct")
     print("Radix Sort tim: " + str((end_time - start_time)))
+
+analyzeAlgorithm(radix_sort, 2)
 
 l.clear()
 sorting_list.clear()
@@ -119,19 +165,21 @@ print("--------------------------------------------------")
 
 #Heap sort test
 print("--------------------------------------------------")
-l = random_list(1 , 100 , 50)
+l = random_list(1 , 10000 , 1000)
 sorting_list = l[:]
 
 start_time = time.clock()
-heapsort(sorting_list)
+heap_sort(sorting_list)
 end_time = time.clock()
-
+times.update({"Heap sort" : end_time - start_time})
 l.sort()
 
 if l == sorting_list:
     print("Heap Sort is correct")
     print("Heap Sort tim: " + str((end_time - start_time)))
 
+analyzeAlgorithm(heap_sort , 3)
+plt.show()
+
 l.clear()
 sorting_list.clear()
-print("--------------------------------------------------")
