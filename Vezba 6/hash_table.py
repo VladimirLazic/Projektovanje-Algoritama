@@ -45,6 +45,7 @@ class Hash_Table:
         self.a = random.randrange(1 , p)
         self.b = random.randrange(0 , p)
         self.option = option
+        self.hash_help_val = random.randrange(0 , self.capacity - 1)
 
     def __str__(self):
         xstring = ""
@@ -65,7 +66,7 @@ class Hash_Table:
             size += len(item)
         return size
 
-    def hash(self , key):
+    def hash(self , key , secondKey = 0):
 
         if self.option == 0:
             return key % self.capacity
@@ -75,6 +76,21 @@ class Hash_Table:
 
         if self.option == 2:
             return ((self.a * key + self.b) % self.p) % self.capacity
+
+        if self.option == 3:
+            return (h1(key) + secondKey) % self.capacity
+
+        if self.option == 4:
+            return (h1(key) + 1/2*secondKey + 1/2*(secondKey^2))
+
+        if self.option == 5:
+            return (h1(key) + h2(key)) % self.capacity
+
+    def h1(self , key):
+        return key % self.capacity
+
+    def h2(self , key):
+        return 1 + (k % self.hash_help_val)
 
     def insert(self , data):
 
@@ -99,6 +115,27 @@ class Hash_Table:
                 del self.slots[self.hash(key)][index]
                 return True
         return False
+
+    def hash_insert(self , data):
+        i = 0
+        while( i != self.capacity):
+            j = hash(data.key , i)
+            if self.slots[j] == None:
+                self.slots[j].append(data)
+                return j
+            else:
+                i = i + 1
+        print("Hash overflow")
+        return -1
+
+    def hash_search(self , data):
+        i = 0
+        while(self.slots[j] == None or i = self.capacity):
+            j = hash(data.key , i)
+            if self.slots[j] == data.key:
+                return j
+            i += 1
+        return None
 
 h_t = Hash_Table()
 h_t.insert(Data(0 , 5))
