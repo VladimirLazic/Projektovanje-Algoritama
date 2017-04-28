@@ -1,3 +1,7 @@
+import random
+
+TreeElements = list()
+
 class Node:
     """
     Tree node: left child, right child and data
@@ -10,6 +14,9 @@ class Node:
         self.left = l
         self.right = r
         self.data = d
+        self.parent = None
+    def __str__(self):
+        return str(self.data) + " " + str(self.left) + " " + str(self.right)
 
 class Data:
     """
@@ -24,71 +31,169 @@ class Data:
         self.a2 = val2
 
 class Tree:
-    def __init__(self , root = Node() , left = Node() , right = Node()):
-        self.root = root
-        self.left = left
-        self.right = left
 
-    def getRoot(self):
-        return self.root
+    def __init__(self , value):
+        self.root = Node(None , None , value)
 
-    def add(self, val):
+    def add(self , value , node = None):
+        if node == None:
+            if self.root != None:
+                if self.root.data >= value:
+                    if self.root.left == None:
+                        self.root.left = Node(None , None , value)
+                    else:
+                        self.add(value , self.root.left)
+                elif self.root.data <= value:
+                    if self.root.right == None:
+                        self.root.right = Node(None , None , value)
+                    else:
+                        self.add(value , self.root.right)
+            else:
+                self.root = Node(None , None , value)
+        else:
+            if node.data >= value:
+                if node.left == None:
+                    node.left = Node(None , None , value)
+                else:
+                    self.add(value , node.left)
+
+            elif node.data <= value:
+                if node.right == None:
+                    node.right = Node(None , None , value)
+                else:
+                    self.add(value , node.right)
+
+    def Add(self, x):
+        temp = Node(None , None , x)
         if(self.root == None):
-            self.root = Node(val)
+            self.root = temp
         else:
-            self._add(val, self.root)
+            self._Add(self.root, temp)
 
-    def _add(self, val, node):
-        if(val < node.data):
-            if(node.left != None):
-                self._add(val, node.left)
+    def _Add(self, treeNode, newNode):
+        if(newNode.data.value <= treeNode.data.value):
+            if(treeNode.l == None):
+                newNode.p = treeNode
+                treeNode.l = newNode
             else:
-                node.left = Node(val)
+                self._Add(treeNode.l, newNode)
         else:
-            if(node.right != None):
-                self._add(val, node.right)
+            if(treeNode.r == None):
+                newNode.p = treeNode
+                treeNode.r = newNode
             else:
-                node.right = Node(val)
-            return
+                self._Add(treeNode.r, newNode)
 
-    def deleteTree(self):
-        self.root = None
-    def find(self, val):
-        if(self.root != None):
-            return self._find(val, self.root)
+    def printTree(self , node = None , retVal = ''):
+        if(node == None):
+            if (self.root == None):
+                print("Tree is empty")
+            else:
+                print("Tree root: " + str(self.root.data) + "\n")
+                if(self.root.left != None):
+                    self.printTree(self.root.left , retVal)
+                if(self.root.right != None):
+                    self.printTree(self.root.right , retVal)
         else:
-            return None
+            if (node.data == None):
+                print("Node empty\n")
+            else:
+                print("Node value: " + str(node.data) + "\n")
+                if(node.left != None):
+                    self.printTree(node.left , retVal)
+                if(node.right != None):
+                    self.printTree(node.right , retVal)
 
-    def _find(self, val, node):
-        if(val == node.data):
-            return node
-        elif(val < node.data and node.left != None):
-            self._find(val, node.left)
-        elif(val > node.data and node.right != None):
-            self._find(val, node.right)
+    def InorderTreeWalk(self , node = None):
+        global TreeElements
+        if node == None:
+            if self.root != None:
+                if(self.root.right != None):
+                    self.InorderTreeWalk(self.root.right)
+                TreeElements.append(self.root.data)
+                if(self.root.left != None):
+                    self.InorderTreeWalk(self.root.left)
+        else:
+            if node != None:
+                if(node.right != None):
+                    self.InorderTreeWalk(node.right)
+                TreeElements.append(node.data)
+                if(node.left != None):
+                    self.InorderTreeWalk(node.left)
 
-    def deleteTree(self):
-        # garbage collector will do this for us.
-        self.root = None
+    def TreeSearch(self , value , node = None):
+        if node == None:
+            if self.root == None or value == self.root.data:
+                return self.root
+            if value < self.root.data:
+                return self.TreeSearch(value , self.root.left)
+            else:
+                return self.TreeSearch(value , self.root.right)
+        else:
+            if node == None or value == node.data:
+                return node
+            if value < node.data:
+                return self.TreeSearch(value , node.left)
+            else:
+                return self.TreeSearch(value , node.right)
 
-    def printTree(self):
-        if(self.root != None):
-            self._printTree(self.root)
+    def TreeMaximum(self):
+        retVal = self.root
+        while retVal.right != None:
+            retVal = retVal.right
+        return retVal
 
-    def _printTree(self, node):
-        if(node != None):
-            self._printTree(node.lefteft)
-            print (str(node.data) + ' ')
-            self._printTree(node.right)
+    def _max(self, treeNode):
+        if(treeNode.r == None):
+            return treeNode
+        else:
+            return self._max(treeNode.r)
 
-tree = Tree()
-tree.add(3)
-tree.add(4)
-tree.add(0)
-tree.add(8)
-tree.add(2)
-tree.printTree()
-print((tree.find(3)).data)
-print(tree.find(10))
-tree.deleteTree()
-tree.printTree()
+    def TreeMinimum(self):
+        retVal = self.root
+        while retVal.left != None:
+            retVal = retVal.left
+        return retVal
+
+    def _min(self, treeNode):
+        if(treeNode.l == None):
+            return treeNode
+        else:
+            return self._min(treeNode.l)
+
+    #Following code doesn't work. Done only for practice
+    def Transplant(self , u , v):
+        if(u.parent == None):
+            self.root = v
+        elif u == u.parent.left:
+            u.parent.left = v
+        else:
+            u.parent.right = v
+        if v != None:
+            v.parent = u.parent
+
+    def TreeDelete(self , z):
+        if z.left == None:
+            self.Transplant(T , z  , z.right)
+        elif z.right == None:
+            self.Transplant(T , z , z.left)
+        else:
+            y = self._min(z.right)
+            if y.parent != z:
+                self.Transplant(T , y , y.right)
+                y.right , y.right.parent = z.right , y
+            self.Transplant(T , z , y)
+            y.left = z.lefty
+            y.left.parent = y
+
+
+t = Tree(5)
+
+for i in range(0 , 50):
+    t.add(random.randrange(0 , 91))
+t.add(100)
+print("List Before InorderTreeWalk: " , TreeElements)
+t.InorderTreeWalk()
+print("List After InorderTreeWalk: " , TreeElements)
+TreeElements.sort()
+print("List After Sort: " , TreeElements)
