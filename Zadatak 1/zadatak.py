@@ -134,7 +134,7 @@ l.sort()
 
 if l == sorting_list:
     print("Selection Sort is correct")
-    print("Selection Sort tim: " + str((end_time - start_time)))
+    print("Selection Sort time: " + str((end_time - start_time)))
 
 analyzeAlgorithm(selection_sort, 1)
 
@@ -155,7 +155,7 @@ l.sort()
 
 if l == sorting_list:
     print("Radix Sort is correct")
-    print("Radix Sort tim: " + str((end_time - start_time)))
+    print("Radix Sort time: " + str((end_time - start_time)))
 
 analyzeAlgorithm(radix_sort, 2)
 
@@ -176,7 +176,7 @@ l.sort()
 
 if l == sorting_list:
     print("Heap Sort is correct")
-    print("Heap Sort tim: " + str((end_time - start_time)))
+    print("Heap Sort time: " + str((end_time - start_time)))
 
 analyzeAlgorithm(heap_sort , 3)
 plt.show()
