@@ -112,14 +112,6 @@ def BreadthFirstSearch(graph : Dict[Vertex , Vertex] , source : Vertex):
         TIME += 1
         vertex_source.color = Color.BLACK
         vertex_source.data['Finish'] = TIME
-        
-
-
-
-
-
-
-
 
 u = Vertex(c=VertexColor.WHITE, d1=1, d2=22)
 v = Vertex(c=VertexColor.GRAY, p=u, d1=33, d2=4)
