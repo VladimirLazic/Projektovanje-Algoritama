@@ -4,7 +4,7 @@ TreeElements = list()
 
 class Node:
     """
-    Tree node: left child, right child and data
+    Tree node: left child, right child, data and parent element for BST
     """
     def __init__(self, l = None, r = None, d = None):
         """
@@ -63,26 +63,26 @@ class Tree:
                 else:
                     self.add(value , node.right)
 
-    def Add(self, x):
-        temp = Node(None , None , x)
+    def Add(self , value):
+        node = Node(None , None , value)
         if(self.root == None):
-            self.root = temp
+            self.root = node
         else:
-            self._Add(self.root, temp)
+            self._Add(self.root , node)
 
-    def _Add(self, treeNode, newNode):
-        if(newNode.data.value <= treeNode.data.value):
-            if(treeNode.l == None):
-                newNode.p = treeNode
-                treeNode.l = newNode
+    def _Add(self , currentNode , newNode):
+        if currentNode.data >= newNode.data:
+            if currentNode.left == None:
+                newNode.parent = currentNode
+                currentNode.left = newNode
             else:
-                self._Add(treeNode.l, newNode)
+                self._Add(currentNode.left , newNode)
         else:
-            if(treeNode.r == None):
-                newNode.p = treeNode
-                treeNode.r = newNode
+            if currentNode.right == None:
+                newNode.parent = currentNode
+                currentNode.right = newNode
             else:
-                self._Add(treeNode.r, newNode)
+                self._Add(currentNode.right , newNode)
 
     def printTree(self , node = None , retVal = ''):
         if(node == None):
@@ -105,19 +105,18 @@ class Tree:
                     self.printTree(node.right , retVal)
 
     def InorderTreeWalk(self , node = None):
-        global TreeElements
         if node == None:
             if self.root != None:
                 if(self.root.right != None):
                     self.InorderTreeWalk(self.root.right)
-                TreeElements.append(self.root.data)
+                print(self.root.data)
                 if(self.root.left != None):
                     self.InorderTreeWalk(self.root.left)
         else:
             if node != None:
                 if(node.right != None):
                     self.InorderTreeWalk(node.right)
-                TreeElements.append(node.data)
+                print(node.data)
                 if(node.left != None):
                     self.InorderTreeWalk(node.left)
 
@@ -174,26 +173,44 @@ class Tree:
 
     def TreeDelete(self , z):
         if z.left == None:
-            self.Transplant(T , z  , z.right)
+            self.Transplant(z  , z.right)
         elif z.right == None:
-            self.Transplant(T , z , z.left)
+            self.Transplant(z , z.left)
         else:
             y = self._min(z.right)
             if y.parent != z:
-                self.Transplant(T , y , y.right)
+                self.Transplant(y , y.right)
                 y.right , y.right.parent = z.right , y
-            self.Transplant(T , z , y)
+            self.Transplant(z , y)
             y.left = z.lefty
             y.left.parent = y
 
+    def DeleteTree(self , node = None):
+        if node == None:
+            while self.root != None:
+                if self.root.left != None:
+                    self.DeleteTree(self.root.left)
+                if self.root.right != None:
+                    self.DeleteTree(self.root.right)
+                self.root = None
+        else:
+            while node != None:
+                if node.left != None:
+                    self.DeleteTree(node.left)
+                if node.right != None:
+                    self.DeleteTree(node.right)
+                node = None
+
+
 
 t = Tree(5)
-
 for i in range(0 , 50):
-    t.add(random.randrange(0 , 91))
-t.add(100)
-print("List Before InorderTreeWalk: " , TreeElements)
+    t.Add(random.randrange(0 , 100))
+t.Add(100)
+
+print("List before delete: ")
 t.InorderTreeWalk()
-print("List After InorderTreeWalk: " , TreeElements)
-TreeElements.sort()
-print("List After Sort: " , TreeElements)
+
+t.TreeDelete(Node(None , None , 100))
+print("Tree after delete")
+t.InorderTreeWalk()
